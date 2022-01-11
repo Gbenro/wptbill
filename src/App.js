@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-import "bootstrap/dist/css/bootstrap.min.css";
+
 import "./App.css";
 import { MyContext } from "./context";
 import Stage_1 from "./components/stage_1";
