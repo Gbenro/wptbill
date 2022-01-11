@@ -13,14 +13,17 @@ const Stage_1 = () => {
     const validate = validateInput(value);
 
     if (validate) {
-      console.log(value);
+      //form is valid, add player
+      setError([false, ""]);
+      context.addPlayer(value);
+      //Reseting the input box
+      textInput.current.value = "";
     } else {
-      console.log(error);
     }
   };
 
   const validateInput = (value) => {
-    if (value === " ") {
+    if (value === "") {
       setError([true, "Sorry you need to add something"]);
       return false;
     }
@@ -30,6 +33,8 @@ const Stage_1 = () => {
     }
     return true;
   };
+
+  console.log("context:", context);
   return (
     <>
       <Form onSubmit={handleSubmit} className="mt-4">
@@ -41,9 +46,36 @@ const Stage_1 = () => {
             ref={textInput}
           ></Form.Control>
         </Form.Group>
+
+        {error[0] ? <Alert variant="danger">{error[1]}</Alert> : null}
+
         <Button className="miami mt-4" variant="primary" type="submit">
           Add player
         </Button>
+        {context.state.players && context.state.players.length > 0 ? (
+          <>
+            <hr />
+            <div>
+              <ul className="list-group">
+                {context.state.players.map((item, id) => (
+                  <li
+                    key={id}
+                    className="list-group-item d-flex justify-content-between align-items-center list-group-item-action"
+                  >
+                    {item}
+                    <span
+                      className="badge badge-danger"
+                      onClick={() => context.removePlayer(id)}
+                    >
+                      {" "}
+                      X
+                    </span>
+                  </li>
+                ))}
+              </ul>
+            </div>
+          </>
+        ) : null}
       </Form>
     </>
   );
